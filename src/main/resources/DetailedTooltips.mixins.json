@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "galysso.codicraft.detailedTooltips.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+      "ItemStack_Mixin",
+      "PotionContentsComponent_Mixin"
+	],
+	"client": [
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
