@@ -6,7 +6,6 @@
 		"Iceberg.Tooltips_Mixin",
 		"LegendaryTooltips.TooltipDecor_Mixin",
 		"Minecraft.ItemStack_Mixin",
-		"Minecraft.DrawContext_Mixin",
 		"Minecraft.PotionContentsComponent_Mixin"
 	],
 	"client": [

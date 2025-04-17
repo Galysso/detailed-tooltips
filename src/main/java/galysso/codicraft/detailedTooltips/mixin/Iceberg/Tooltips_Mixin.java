@@ -89,7 +89,7 @@ public class Tooltips_Mixin {
                 needsWrap = true;
             }
 
-            if (eventResult.tooltipElements().size() > 0) {
+            if (!eventResult.tooltipElements().isEmpty()) {
                 Object var17 = ((Either)eventResult.tooltipElements().get(0)).right().orElse((Object)null);
                 if (var17 instanceof TooltipComponent) {
                     TooltipComponent clientComponent = (TooltipComponent)var17;

@@ -52,13 +52,20 @@ public class TooltipDecor_Mixin {
         return value;
     }
 
-    @Inject(method = "drawBorder", at = @At("TAIL"), cancellable = true)
+    @Inject(method = "drawBorder", at = @At("TAIL"))
     private static void drawBorder(MatrixStack poseStack, int x, int y, int width, int height, ItemStack item, List<TooltipComponent> components, TextRenderer font, LegendaryTooltipsConfig.FrameDefinition frameDefinition, boolean comparison, int index, CallbackInfo ci) {
         int additionalOffset = 0;
         for (TooltipComponent component : components) {
             additionalOffset += component.getHeight();
+            if (component instanceof ItemModelComponent) {
+                additionalOffset -= 13;
+            }
             if (component instanceof SeparatorTooltipComponent) {
-                drawSeparator(poseStack, x - 3 + 1, y + capturedOffset + additionalOffset - 11, width, Tooltips.currentColors.borderColorStart());
+                if (comparison) {
+                    drawSeparator(poseStack, x - 3 + 1, y + capturedOffset + additionalOffset - 24, width, Tooltips.currentColors.borderColorStart());
+                } else {
+                    drawSeparator(poseStack, x - 3 + 1, y + capturedOffset + additionalOffset - 11, width, Tooltips.currentColors.borderColorStart());
+                }
             }
         }
     }

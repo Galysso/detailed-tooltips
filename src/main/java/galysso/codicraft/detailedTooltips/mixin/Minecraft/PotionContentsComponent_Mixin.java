@@ -66,7 +66,7 @@ public class PotionContentsComponent_Mixin {
 
             if (Screen.hasShiftDown()) {
                 if (I18n.hasTranslation(statusEffectInstance.getTranslationKey() + ".desc")) {
-                    textConsumer.accept(Text.translatable(statusEffectInstance.getTranslationKey() + ".desc").formatted(Formatting.GRAY));
+                    textConsumer.accept(Text.literal("• ").append(Text.translatable(statusEffectInstance.getTranslationKey() + ".desc").formatted(Formatting.GRAY)));
                 }
 
                 ((StatusEffect) registryEntry.value()).forEachAttributeModifier(statusEffectInstance.getAmplifier(), (attribute, modifier) -> {

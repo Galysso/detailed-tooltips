@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.component.ComponentHolder;
+import net.minecraft.component.ComponentMap;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
@@ -36,6 +37,11 @@ import java.util.function.Consumer;
 @Mixin(value = ItemStack.class)
 public abstract class ItemStack_Mixin implements ComponentHolder {
     @Shadow public abstract ItemEnchantmentsComponent getEnchantments();
+
+    @Shadow public abstract ComponentMap getComponents();
+
+    @Shadow protected abstract <T extends TooltipAppender> void appendTooltip(ComponentType<T> componentType, Item.TooltipContext context, Consumer<Text> textConsumer, TooltipType type);
+
     private static Boolean weaponStatShown;
     private static Boolean weaponModifiersShown;
 
@@ -48,8 +54,10 @@ public abstract class ItemStack_Mixin implements ComponentHolder {
             CallbackInfo ci
     ) {
         if (componentType.equals(DataComponentTypes.ENCHANTMENTS)) {
-            appendEnchantmentTooltip(textConsumer);
+            appendEnchantmentTooltip_equipment(textConsumer);
             ci.cancel();
+        } else if (componentType.equals(DataComponentTypes.STORED_ENCHANTMENTS)) {
+            appendEnchantmentTooltip_book(textConsumer);
         }
     }
 
@@ -82,8 +90,17 @@ public abstract class ItemStack_Mixin implements ComponentHolder {
     }
 
     @Unique
-    private void appendEnchantmentTooltip(Consumer<Text> textConsumer) {
-        ItemEnchantmentsComponent itemEnchantmentsComponent = getEnchantments();
+    private void appendEnchantmentTooltip_equipment(Consumer<Text> textConsumer) {
+        appendEnchantmentTooltip(textConsumer, getEnchantments());
+    }
+
+    @Unique
+    private void appendEnchantmentTooltip_book(Consumer<Text> textConsumer) {
+        appendEnchantmentTooltip(textConsumer, this.get(DataComponentTypes.STORED_ENCHANTMENTS));
+    }
+
+    @Unique
+    private void appendEnchantmentTooltip(Consumer<Text> textConsumer, ItemEnchantmentsComponent itemEnchantmentsComponent) {
         if (itemEnchantmentsComponent != null) {
             Set<RegistryEntry<Enchantment>> enchantments = itemEnchantmentsComponent.getEnchantments();
             if (!enchantments.isEmpty()) {
@@ -96,7 +113,7 @@ public abstract class ItemStack_Mixin implements ComponentHolder {
                     textConsumer.accept(Text.translatable(translationKey).formatted(Formatting.DARK_PURPLE));
                     if (Screen.hasShiftDown()) {
                         if (I18n.hasTranslation(translationKey + ".desc")) {
-                            textConsumer.accept(Text.translatable(translationKey + ".desc").formatted(Formatting.GRAY));
+                            textConsumer.accept(Text.literal("• ").append(Text.translatable(translationKey + ".desc").formatted(Formatting.GRAY)));
                         }
                     }
                 }
