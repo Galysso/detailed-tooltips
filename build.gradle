@@ -41,6 +41,15 @@ dependencies {
 
 	// Iceberg
 	modImplementation "curse.maven:iceberg-fabric-539382:6379428"
+
+	// Equipment compare
+	modImplementation "curse.maven:equipment-compare-fabric-541329:6375499"
+
+	// Legendary Tooltips
+	modImplementation "curse.maven:legendary-tooltips-fabric-542478:6400658"
+
+	// Prism
+	modImplementation "curse.maven:prism-fabric-665526:6372978"
 }
 
 processResources {

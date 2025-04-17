@@ -1,8 +1,9 @@
-package galysso.codicraft.detailedTooltips.mixin;
+package galysso.codicraft.detailedTooltips.mixin.Minecraft;
 
 import com.anthonyhilyard.iceberg.component.IExtendedText;
 import com.anthonyhilyard.iceberg.component.TitleBreakComponent;
 import galysso.codicraft.detailedTooltips.Util.DetailedTooltipsUtil;
+import galysso.codicraft.detailedTooltips.Util.SeparatorTooltipComponent;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
@@ -15,7 +16,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Mixin(DrawContext.class)
-public class DrawContextMixin {
+public class DrawContext_Mixin {
     @Shadow
     private void drawTooltip(TextRenderer textRenderer, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner) {}
 
@@ -51,6 +51,7 @@ public class DrawContextMixin {
                 IExtendedText component = (IExtendedText) TooltipComponent.of(orderedText);
                 component.setAlignment(IExtendedText.TextAlignment.CENTER);
                 TitleBreakComponent titleBreakComponent = new TitleBreakComponent();
+                list.add(new SeparatorTooltipComponent());
                 list.add((TooltipComponent) component);
             } else {
                 OrderedText ordered = t.asOrderedText();

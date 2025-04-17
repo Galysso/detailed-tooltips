@@ -1,10 +1,9 @@
-package galysso.codicraft.detailedTooltips.mixin;
+package galysso.codicraft.detailedTooltips.mixin.Minecraft;
 
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import galysso.codicraft.detailedTooltips.Util.DetailedTooltipsUtil;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -13,29 +12,15 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.PotionItem;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.resource.language.I18n;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.function.Consumer;
 
 @Mixin(PotionContentsComponent.class)
@@ -81,7 +66,6 @@ public class PotionContentsComponent_Mixin {
 
             if (Screen.hasShiftDown()) {
                 if (I18n.hasTranslation(statusEffectInstance.getTranslationKey() + ".desc")) {
-                    System.out.println(I18n.hasTranslation(statusEffectInstance.getTranslationKey() + ".desc"));
                     textConsumer.accept(Text.translatable(statusEffectInstance.getTranslationKey() + ".desc").formatted(Formatting.GRAY));
                 }
 
