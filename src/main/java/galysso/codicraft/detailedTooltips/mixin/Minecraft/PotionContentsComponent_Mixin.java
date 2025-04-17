@@ -33,7 +33,6 @@ public class PotionContentsComponent_Mixin {
      */
     @Overwrite
     public static void buildTooltip(Iterable<StatusEffectInstance> effects, Consumer<Text> textConsumer, float durationMultiplier, float tickRate) {
-        textConsumer.accept(Text.translatable("codicraft.object_type.potion").formatted(Formatting.WHITE));
         List<Pair<RegistryEntry<EntityAttribute>, EntityAttributeModifier>> list = Lists.newArrayList();
         boolean bl = true;
 
@@ -66,7 +65,7 @@ public class PotionContentsComponent_Mixin {
 
             if (Screen.hasShiftDown()) {
                 if (I18n.hasTranslation(statusEffectInstance.getTranslationKey() + ".desc")) {
-                    textConsumer.accept(Text.literal("• ").append(Text.translatable(statusEffectInstance.getTranslationKey() + ".desc").formatted(Formatting.GRAY)));
+                    textConsumer.accept(Text.literal("• ").append(Text.translatable(statusEffectInstance.getTranslationKey() + ".desc")).formatted(Formatting.GRAY));
                 }
 
                 ((StatusEffect) registryEntry.value()).forEachAttributeModifier(statusEffectInstance.getAmplifier(), (attribute, modifier) -> {
