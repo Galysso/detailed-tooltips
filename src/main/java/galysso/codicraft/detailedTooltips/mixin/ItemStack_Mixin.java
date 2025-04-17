@@ -13,6 +13,7 @@ import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -82,7 +83,10 @@ public abstract class ItemStack_Mixin implements ComponentHolder {
             } else {
                 if (!weaponModifiersShown) {
                     weaponModifiersShown = true;
-                    textConsumer.accept(Text.literal("[SECTION]").append(Text.translatable("tooltip.section.attribute_modifiers")).formatted(Formatting.WHITE));
+                    double d = modifier.value();
+                    if (d < 0.0F || d > 0.0F) {
+                        textConsumer.accept(Text.literal("[SECTION]").append(Text.translatable("tooltip.section.attribute_modifiers")).formatted(Formatting.WHITE));
+                    }
                 }
             }
         }
