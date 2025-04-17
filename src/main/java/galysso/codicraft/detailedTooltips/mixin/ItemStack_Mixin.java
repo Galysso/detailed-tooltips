@@ -1,6 +1,7 @@
 package galysso.codicraft.detailedTooltips.mixin;
 
 import com.google.common.collect.Multimap;
+import galysso.codicraft.detailedTooltips.Util.DetailedTooltipsUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
@@ -78,14 +79,14 @@ public abstract class ItemStack_Mixin implements ComponentHolder {
             if (modifier.idMatches(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID) || modifier.idMatches(Item.BASE_ATTACK_SPEED_MODIFIER_ID)) {
                 if (!weaponStatShwon) {
                     weaponStatShwon = true;
-                    textConsumer.accept(Text.literal("[SECTION]").append(Text.translatable("tooltip.section.weapon_stats")).formatted(Formatting.WHITE));
+                    textConsumer.accept(Text.literal(DetailedTooltipsUtil.SECTION_SUFFIX).append(Text.translatable("tooltip.section.weapon_stats")).formatted(Formatting.WHITE));
                 }
             } else {
                 if (!weaponModifiersShown) {
                     weaponModifiersShown = true;
                     double d = modifier.value();
                     if (d < 0.0F || d > 0.0F) {
-                        textConsumer.accept(Text.literal("[SECTION]").append(Text.translatable("tooltip.section.attribute_modifiers")).formatted(Formatting.WHITE));
+                        textConsumer.accept(Text.literal(DetailedTooltipsUtil.SECTION_SUFFIX).append(Text.translatable("tooltip.section.attribute_modifiers")).formatted(Formatting.WHITE));
                     }
                 }
             }
@@ -99,7 +100,7 @@ public abstract class ItemStack_Mixin implements ComponentHolder {
             Set<RegistryEntry<Enchantment>> enchantments = itemEnchantmentsComponent.getEnchantments();
             if (!enchantments.isEmpty()) {
                 if (Screen.hasShiftDown()) {
-                    textConsumer.accept(Text.literal("[SECTION]").append(Text.translatable("tooltip.section.enchantment")).formatted(Formatting.WHITE));
+                    textConsumer.accept(Text.literal(DetailedTooltipsUtil.SECTION_SUFFIX).append(Text.translatable("tooltip.section.enchantment")).formatted(Formatting.WHITE));
                 }
                 for (RegistryEntry<Enchantment> enchantment : enchantments) {
                     String[] idSplitted = enchantment.getIdAsString().toLowerCase().split(":");

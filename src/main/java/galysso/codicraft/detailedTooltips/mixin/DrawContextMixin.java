@@ -2,6 +2,7 @@ package galysso.codicraft.detailedTooltips.mixin;
 
 import com.anthonyhilyard.iceberg.component.IExtendedText;
 import com.anthonyhilyard.iceberg.component.TitleBreakComponent;
+import galysso.codicraft.detailedTooltips.Util.DetailedTooltipsUtil;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
@@ -44,7 +45,7 @@ public class DrawContextMixin {
     private List<TooltipComponent> modifyTooltipList(List<TooltipComponent> value) {
         List<TooltipComponent> list = new ArrayList<>();
         for (Text t : capturedTextList) {
-            if (t.getString().startsWith("[SECTION]")) {
+            if (t.getString().startsWith(DetailedTooltipsUtil.SECTION_SUFFIX)) {
                 Text newString = Text.literal(t.getString().substring(9));
                 OrderedText orderedText = newString.asOrderedText();
                 IExtendedText component = (IExtendedText) TooltipComponent.of(orderedText);

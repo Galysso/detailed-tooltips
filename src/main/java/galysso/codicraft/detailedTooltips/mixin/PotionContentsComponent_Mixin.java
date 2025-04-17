@@ -2,6 +2,7 @@ package galysso.codicraft.detailedTooltips.mixin;
 
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import galysso.codicraft.detailedTooltips.Util.DetailedTooltipsUtil;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifiersComponent;
@@ -54,7 +55,7 @@ public class PotionContentsComponent_Mixin {
         boolean titlePrinted = false;
         for(StatusEffectInstance statusEffectInstance : effects) {
             if (Screen.hasShiftDown() && !titlePrinted) {
-                textConsumer.accept(Text.literal("[SECTION]").append(Text.translatable("tooltip.section.effect")).formatted(Formatting.WHITE));
+                textConsumer.accept(Text.literal(DetailedTooltipsUtil.SECTION_SUFFIX).append(Text.translatable("tooltip.section.effect")).formatted(Formatting.WHITE));
                 titlePrinted = true;
             }
             bl = false;
@@ -101,35 +102,10 @@ public class PotionContentsComponent_Mixin {
                     }
                 });
             }
-
-
         }
 
         if (bl) {
             textConsumer.accept(NONE_TEXT);
         }
-/*
-        if (!list.isEmpty()) {
-            textConsumer.accept(ScreenTexts.EMPTY);
-            textConsumer.accept(Text.translatable("potion.whenDrank").formatted(Formatting.DARK_PURPLE));
-
-            for(Pair<RegistryEntry<EntityAttribute>, EntityAttributeModifier> pair : list) {
-                EntityAttributeModifier entityAttributeModifier = (EntityAttributeModifier)pair.getSecond();
-                double d = entityAttributeModifier.value();
-                double e;
-                if (entityAttributeModifier.operation() != EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE && entityAttributeModifier.operation() != EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL) {
-                    e = entityAttributeModifier.value();
-                } else {
-                    e = entityAttributeModifier.value() * (double)100.0F;
-                }
-
-                if (d > (double)0.0F) {
-                    textConsumer.accept(Text.translatable("attribute.modifier.plus." + entityAttributeModifier.operation().getId(), new Object[]{AttributeModifiersComponent.DECIMAL_FORMAT.format(e), Text.translatable(((EntityAttribute)((RegistryEntry)pair.getFirst()).value()).getTranslationKey())}).formatted(Formatting.BLUE));
-                } else if (d < (double)0.0F) {
-                    e *= (double)-1.0F;
-                    textConsumer.accept(Text.translatable("attribute.modifier.take." + entityAttributeModifier.operation().getId(), new Object[]{AttributeModifiersComponent.DECIMAL_FORMAT.format(e), Text.translatable(((EntityAttribute)((RegistryEntry)pair.getFirst()).value()).getTranslationKey())}).formatted(Formatting.RED));
-                }
-            }
-        }*/
     }
 }
