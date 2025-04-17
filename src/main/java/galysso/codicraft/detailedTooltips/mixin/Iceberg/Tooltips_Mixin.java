@@ -7,6 +7,7 @@ import com.anthonyhilyard.iceberg.events.client.RenderTooltipEvents;
 import com.anthonyhilyard.iceberg.util.Tooltips;
 import com.mojang.datafixers.util.Either;
 import galysso.codicraft.detailedTooltips.Util.DetailedTooltipsUtil;
+import galysso.codicraft.detailedTooltips.Util.SeparatorTooltipComponent;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
@@ -101,48 +102,46 @@ public class Tooltips_Mixin {
             int finalTooltipTextWidth = tooltipTextWidth;
 
             List<TooltipComponent> res = new ArrayList<>();
-            if (false) {
-                res = needsWrap ? eventResult.tooltipElements().stream().flatMap((either) -> (Stream) either.map((text) -> splitLine(text, font, finalTooltipTextWidth), (component) -> Stream.of(getClientComponent(component)))).toList() : eventResult.tooltipElements().stream().map((either) -> (TooltipComponent) either.map((text) -> TooltipComponent.of(text instanceof Text ? ((Text) text).asOrderedText() : Language.getInstance().reorder(text)), (component) -> getClientComponent(component))).toList();
-            } else {
-                if (needsWrap) {
-                    for (Either<StringVisitable, TooltipData> either : eventResult.tooltipElements()) {
-                        if (either.left().isPresent()) {
-                            StringVisitable text = either.left().get();
-                            if (text.getString().startsWith(DetailedTooltipsUtil.SECTION_SUFFIX)) {
-                                Text newString = Text.literal(text.getString().substring(9));
-                                OrderedText orderedText = newString.asOrderedText();
-                                TooltipComponent component = TooltipComponent.of(orderedText);
-                                if (component instanceof IExtendedText) {
-                                    ((IExtendedText) component).setAlignment(IExtendedText.TextAlignment.CENTER);
-                                }
-                                res.add(component);
-                            } else {
-                                res.addAll(splitLine(text, font, finalTooltipTextWidth).toList());
+            if (needsWrap) {
+                for (Either<StringVisitable, TooltipData> either : eventResult.tooltipElements()) {
+                    if (either.left().isPresent()) {
+                        StringVisitable text = either.left().get();
+                        if (text.getString().startsWith(DetailedTooltipsUtil.SECTION_SUFFIX)) {
+                            Text newString = Text.literal(text.getString().substring(9));
+                            OrderedText orderedText = newString.asOrderedText();
+                            TooltipComponent component = TooltipComponent.of(orderedText);
+                            if (component instanceof IExtendedText) {
+                                ((IExtendedText) component).setAlignment(IExtendedText.TextAlignment.CENTER);
                             }
-                        } else if (either.right().isPresent()) {
-                            TooltipData component = either.right().get();
-                            res.add(getClientComponent(component));
+                            res.add(new SeparatorTooltipComponent());
+                            res.add(component);
+                        } else {
+                            res.addAll(splitLine(text, font, finalTooltipTextWidth).toList());
                         }
+                    } else if (either.right().isPresent()) {
+                        TooltipData component = either.right().get();
+                        res.add(getClientComponent(component));
                     }
-                } else {
-                    for (Either<StringVisitable, TooltipData> either : eventResult.tooltipElements()) {
-                        if (either.left().isPresent()) {
-                            StringVisitable text = either.left().get();
-                            if (text.getString().startsWith(DetailedTooltipsUtil.SECTION_SUFFIX)) {
-                                Text newString = Text.literal(text.getString().substring(9));
-                                OrderedText orderedText = newString.asOrderedText();
-                                TooltipComponent component = TooltipComponent.of(orderedText);
-                                if (component instanceof IExtendedText) {
-                                    ((IExtendedText) component).setAlignment(IExtendedText.TextAlignment.CENTER);
-                                }
-                                res.add(component);
-                            } else {
-                                res.add(TooltipComponent.of(text instanceof Text ? ((Text) text).asOrderedText() : Language.getInstance().reorder(text)));
+                }
+            } else {
+                for (Either<StringVisitable, TooltipData> either : eventResult.tooltipElements()) {
+                    if (either.left().isPresent()) {
+                        StringVisitable text = either.left().get();
+                        if (text.getString().startsWith(DetailedTooltipsUtil.SECTION_SUFFIX)) {
+                            Text newString = Text.literal(text.getString().substring(9));
+                            OrderedText orderedText = newString.asOrderedText();
+                            TooltipComponent component = TooltipComponent.of(orderedText);
+                            if (component instanceof IExtendedText) {
+                                ((IExtendedText) component).setAlignment(IExtendedText.TextAlignment.CENTER);
                             }
-                        } else if (either.right().isPresent()) {
-                            TooltipData component = either.right().get();
-                            res.add(getClientComponent(component));
+                            res.add(new SeparatorTooltipComponent());
+                            res.add(component);
+                        } else {
+                            res.add(TooltipComponent.of(text instanceof Text ? ((Text) text).asOrderedText() : Language.getInstance().reorder(text)));
                         }
+                    } else if (either.right().isPresent()) {
+                        TooltipData component = either.right().get();
+                        res.add(getClientComponent(component));
                     }
                 }
             }
