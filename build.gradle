@@ -38,6 +38,9 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// Iceberg
+	modImplementation "curse.maven:iceberg-fabric-539382:6379428"
 }
 
 processResources {

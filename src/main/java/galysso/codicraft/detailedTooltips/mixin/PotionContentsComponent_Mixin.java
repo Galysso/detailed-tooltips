@@ -34,6 +34,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Consumer;
 
 @Mixin(PotionContentsComponent.class)
@@ -50,7 +51,12 @@ public class PotionContentsComponent_Mixin {
         List<Pair<RegistryEntry<EntityAttribute>, EntityAttributeModifier>> list = Lists.newArrayList();
         boolean bl = true;
 
+        boolean titlePrinted = false;
         for(StatusEffectInstance statusEffectInstance : effects) {
+            if (Screen.hasShiftDown() && !titlePrinted) {
+                textConsumer.accept(Text.translatable("[SECTION]tooltip.section.effect").formatted(Formatting.WHITE));
+                titlePrinted = true;
+            }
             bl = false;
             MutableText mutableText = Text.translatable(statusEffectInstance.getTranslationKey());
             RegistryEntry<StatusEffect> registryEntry = statusEffectInstance.getEffectType();
@@ -73,9 +79,9 @@ public class PotionContentsComponent_Mixin {
             //textConsumer.accept(mutableText.formatted(registryEntry.value().getCategory().getFormatting()));
 
             if (Screen.hasShiftDown()) {
-                if (I18n.hasTranslation(statusEffectInstance.getTranslationKey() + ".description")) {
-                    System.out.println(I18n.hasTranslation(statusEffectInstance.getTranslationKey() + ".description"));
-                    textConsumer.accept(Text.translatable(statusEffectInstance.getTranslationKey() + ".description").formatted(Formatting.GRAY));
+                if (I18n.hasTranslation(statusEffectInstance.getTranslationKey() + ".desc")) {
+                    System.out.println(I18n.hasTranslation(statusEffectInstance.getTranslationKey() + ".desc"));
+                    textConsumer.accept(Text.translatable(statusEffectInstance.getTranslationKey() + ".desc").formatted(Formatting.GRAY));
                 }
 
                 ((StatusEffect) registryEntry.value()).forEachAttributeModifier(statusEffectInstance.getAmplifier(), (attribute, modifier) -> {
