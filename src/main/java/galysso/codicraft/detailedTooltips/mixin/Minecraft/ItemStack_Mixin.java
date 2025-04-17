@@ -27,7 +27,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -44,6 +46,14 @@ public abstract class ItemStack_Mixin implements ComponentHolder {
 
     private static Boolean weaponStatShown;
     private static Boolean weaponModifiersShown;
+
+    @Inject(method = "getTooltip", at = @At("TAIL"))
+    private void onGetTooltip(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir) {
+        if (this.get(DataComponentTypes.FOOD) != null) {
+            List<Text> tooltips = cir.getReturnValue();
+            tooltips.add(1, Text.translatable("codicraft.object_type.food").formatted(Formatting.WHITE));
+        }
+    }
 
     @Inject(method = "appendTooltip", at = @At("HEAD"), cancellable = true)
     private <T extends TooltipAppender> void onAppendTooltip(
@@ -105,7 +115,7 @@ public abstract class ItemStack_Mixin implements ComponentHolder {
             Set<RegistryEntry<Enchantment>> enchantments = itemEnchantmentsComponent.getEnchantments();
             if (!enchantments.isEmpty()) {
                 if (Screen.hasShiftDown()) {
-                    textConsumer.accept(Text.literal(DetailedTooltipsUtil.SECTION_SUFFIX).append(Text.translatable("tooltip.section.enchantment")).formatted(Formatting.WHITE));
+                    textConsumer.accept((Text.literal(DetailedTooltipsUtil.SECTION_SUFFIX).append(Text.translatable("tooltip.section.enchantment"))).formatted(Formatting.WHITE));
                 }
                 for (RegistryEntry<Enchantment> enchantment : enchantments) {
                     String[] idSplitted = enchantment.getIdAsString().toLowerCase().split(":");

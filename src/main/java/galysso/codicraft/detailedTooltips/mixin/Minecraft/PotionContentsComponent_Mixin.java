@@ -40,7 +40,7 @@ public class PotionContentsComponent_Mixin {
         boolean titlePrinted = false;
         for(StatusEffectInstance statusEffectInstance : effects) {
             if (Screen.hasShiftDown() && !titlePrinted) {
-                textConsumer.accept(Text.literal(DetailedTooltipsUtil.SECTION_SUFFIX).append(Text.translatable("tooltip.section.effect")).formatted(Formatting.WHITE));
+                textConsumer.accept((Text.literal(DetailedTooltipsUtil.SECTION_SUFFIX).append(Text.translatable("tooltip.section.effect"))).formatted(Formatting.WHITE));
                 titlePrinted = true;
             }
             bl = false;
