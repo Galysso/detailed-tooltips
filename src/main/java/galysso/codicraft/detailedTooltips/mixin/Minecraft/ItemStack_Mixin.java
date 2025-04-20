@@ -1,9 +1,14 @@
 package galysso.codicraft.detailedTooltips.mixin.Minecraft;
 
+// Customizing item stack tooltips and adding section tags
+
+import com.anthonyhilyard.iceberg.component.IExtendedText;
 import galysso.codicraft.detailedTooltips.Util.DetailedTooltipsUtil;
+import galysso.codicraft.detailedTooltips.Util.SeparatorTooltipComponent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.component.ComponentHolder;
 import net.minecraft.component.ComponentMap;
@@ -18,6 +23,7 @@ import net.minecraft.item.PotionItem;
 import net.minecraft.item.tooltip.TooltipAppender;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
@@ -47,18 +53,8 @@ public abstract class ItemStack_Mixin implements ComponentHolder {
 
     @Shadow public abstract Item getItem();
 
-    private static Boolean weaponStatShown;
-    private static Boolean weaponModifiersShown;
-
-    @Inject(method = "getTooltip", at = @At("TAIL"))
-    private void onGetTooltip(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir) {
-        List<Text> tooltips = cir.getReturnValue();
-        if (this.getItem() instanceof PotionItem) {
-            tooltips.add(1, Text.translatable("codicraft.object_type.potion").formatted(Formatting.WHITE));
-        } else if (this.get(DataComponentTypes.FOOD) != null) {
-            tooltips.add(1, Text.translatable("codicraft.object_type.food").formatted(Formatting.WHITE));
-        }
-    }
+    private static Boolean weaponStatShown = false;
+    private static Boolean weaponModifiersShown = false;
 
     @Inject(method = "appendTooltip", at = @At("HEAD"), cancellable = true)
     private <T extends TooltipAppender> void onAppendTooltip(

@@ -3,10 +3,14 @@
 	"package": "galysso.codicraft.detailedTooltips.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"bettercombat.BC_WeaponAttributeTooltip_Mixin",
+		"EMI.FakeScreenMixin",
+		"gildedarmor.GA_GildedArmorItem_Mixin",
 		"Iceberg.Tooltips_Mixin",
 		"LegendaryTooltips.TooltipDecor_Mixin",
 		"Minecraft.ItemStack_Mixin",
-		"Minecraft.PotionContentsComponent_Mixin"
+		"Minecraft.PotionContentsComponent_Mixin",
+		"rpginventory.RPGInv_ClientEventsRegistry_Mixin"
 	],
 	"client": [
 	],

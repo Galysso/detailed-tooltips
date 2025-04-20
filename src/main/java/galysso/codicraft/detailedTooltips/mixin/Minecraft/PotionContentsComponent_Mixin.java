@@ -1,5 +1,7 @@
 package galysso.codicraft.detailedTooltips.mixin.Minecraft;
 
+// Adding customized tooltips for potions
+
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import galysso.codicraft.detailedTooltips.Util.DetailedTooltipsUtil;

@@ -50,6 +50,36 @@ dependencies {
 
 	// Prism
 	modImplementation "curse.maven:prism-fabric-665526:6372978"
+
+	// Show Me What You Got
+	modImplementation "io.github.apace100:show-me-what-you-got:1.2.0"
+
+	// better combat
+	modImplementation "curse.maven:better-combat-by-daedelus-639842:6097300"
+
+	// libraries for better combat
+	modImplementation "curse.maven:cloth-config-348521:5729125"
+	modImplementation "curse.maven:playeranimator-658587:6024464"
+
+	// RPG Inventory
+	modImplementation "curse.maven:rpg-inventory-1065901:6377345"
+
+	// dependencies for RPG Inventory
+	modImplementation "maven.modrinth:slot-customization-api:2.1.0"
+	modImplementation"me.fzzyhmstrs:fzzy_config:0.6.7+1.21"
+
+	// trinkets
+	modImplementation "dev.emi:trinkets:3.10.0"
+	modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:6.1.0")
+	modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:6.1.0")
+
+	// Gilded armor
+	modImplementation "maven.modrinth:gilded-armor:mdkuAsGL"
+
+	// EMI
+	modImplementation "curse.maven:emi-580555:6420930"
+	//modCompileOnly "dev.emi:emi-fabric:1.1.22+1.21.1:api"
+	//modLocalRuntime "dev.emi:emi-fabric:1.1.22+1.21.1"
 }
 
 processResources {

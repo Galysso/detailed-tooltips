@@ -1,5 +1,8 @@
 package galysso.codicraft.detailedTooltips.mixin.LegendaryTooltips;
 
+// Draw separators when my custom tooltipComponent is found
+
+import com.anthonyhilyard.equipmentcompare.EquipmentCompare;
 import com.anthonyhilyard.iceberg.component.TitleBreakComponent;
 import com.anthonyhilyard.iceberg.util.Easing;
 import com.anthonyhilyard.iceberg.util.GuiHelper;
@@ -10,6 +13,7 @@ import com.anthonyhilyard.legendarytooltips.tooltip.TooltipDecor;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import galysso.codicraft.detailedTooltips.Util.SeparatorTooltipComponent;
+import io.github.apace100.smwyg.tooltip.HorizontalLayoutTooltipComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.tooltip.OrderedTextTooltipComponent;
@@ -59,10 +63,13 @@ public class TooltipDecor_Mixin {
             additionalOffset += component.getHeight();
             if (component instanceof ItemModelComponent) {
                 additionalOffset -= 13;
+            } else if (component instanceof HorizontalLayoutTooltipComponent) {
+                additionalOffset -= 10;
             }
+
             if (component instanceof SeparatorTooltipComponent) {
                 if (comparison) {
-                    drawSeparator(poseStack, x - 3 + 1, y + capturedOffset + additionalOffset - 24, width, Tooltips.currentColors.borderColorStart());
+                    drawSeparator(poseStack, x - 3 + 1, y + capturedOffset + additionalOffset - 23, width, Tooltips.currentColors.borderColorStart());
                 } else {
                     drawSeparator(poseStack, x - 3 + 1, y + capturedOffset + additionalOffset - 11, width, Tooltips.currentColors.borderColorStart());
                 }
