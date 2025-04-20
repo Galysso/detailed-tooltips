@@ -49,7 +49,9 @@ public class FakeScreenMixin extends Screen {
         List<Text> texts = Screen.getTooltipFromItem(this.client, stack);
 
         for (Text t : texts) {
-            System.out.println("EMI: " + t.getString());
+            if (t.getString().isEmpty()) {
+                continue;
+            }
             if (t.getString().startsWith(DetailedTooltipsUtil.SECTION_SUFFIX)) {
                 Text newString = Text.literal(t.getString().substring(DetailedTooltipsUtil.SECTION_SUFFIX.length()));
                 OrderedText orderedText = newString.asOrderedText();

@@ -5,6 +5,8 @@ package galysso.codicraft.detailedTooltips.mixin.Minecraft;
 import com.anthonyhilyard.iceberg.component.IExtendedText;
 import galysso.codicraft.detailedTooltips.Util.DetailedTooltipsUtil;
 import galysso.codicraft.detailedTooltips.Util.SeparatorTooltipComponent;
+import net.fabric_extras.ranged_weapon.RangedWeaponMod;
+import net.fabric_extras.ranged_weapon.api.AttributeModifierIDs;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
@@ -20,6 +22,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PotionItem;
+import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.item.tooltip.TooltipAppender;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -84,7 +87,7 @@ public abstract class ItemStack_Mixin implements ComponentHolder {
     @Inject(method = "appendAttributeModifierTooltip", at = @At("HEAD"))
     private void appendAttributeModifierTooltip(Consumer<Text> textConsumer, PlayerEntity player, RegistryEntry<EntityAttribute> attribute, EntityAttributeModifier modifier, CallbackInfo ci) {
         if (Screen.hasShiftDown()) {
-            if (modifier.idMatches(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID) || modifier.idMatches(Item.BASE_ATTACK_SPEED_MODIFIER_ID)) {
+            if (modifier.idMatches(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID) || modifier.idMatches(Item.BASE_ATTACK_SPEED_MODIFIER_ID) || modifier.idMatches(AttributeModifierIDs.WEAPON_DAMAGE_ID) || modifier.idMatches(AttributeModifierIDs.WEAPON_PULL_TIME_ID)) {
                 if (!weaponStatShown) {
                     weaponStatShown = true;
                     textConsumer.accept(Text.literal(DetailedTooltipsUtil.SECTION_SUFFIX).append(Text.translatable("tooltip.section.weapon_stats")).formatted(Formatting.WHITE));

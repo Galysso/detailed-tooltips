@@ -80,6 +80,9 @@ dependencies {
 	modImplementation "curse.maven:emi-580555:6420930"
 	//modCompileOnly "dev.emi:emi-fabric:1.1.22+1.21.1:api"
 	//modLocalRuntime "dev.emi:emi-fabric:1.1.22+1.21.1"
+
+	// Ranged weapons API
+	modImplementation "curse.maven:ranged-weapon-api-962162:6077072"
 }
 
 processResources {

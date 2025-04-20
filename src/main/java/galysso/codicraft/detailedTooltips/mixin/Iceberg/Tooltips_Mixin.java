@@ -108,7 +108,9 @@ public class Tooltips_Mixin {
                 for (Either<StringVisitable, TooltipData> either : eventResult.tooltipElements()) {
                     if (either.left().isPresent()) {
                         StringVisitable text = either.left().get();
-                        System.out.println("ICEBERG (wrap): " + text.getString());
+                        if (text.getString().isEmpty()) {
+                            continue;
+                        }
                         if (text.getString().startsWith(DetailedTooltipsUtil.SECTION_SUFFIX)) {
                             Text newString = Text.literal(text.getString().substring(DetailedTooltipsUtil.SECTION_SUFFIX.length()));
                             OrderedText orderedText = newString.asOrderedText();
@@ -130,8 +132,10 @@ public class Tooltips_Mixin {
                 for (Either<StringVisitable, TooltipData> either : eventResult.tooltipElements()) {
                     if (either.left().isPresent()) {
                         StringVisitable text = either.left().get();
+                        if (text.getString().isEmpty()) {
+                            continue;
+                        }
                         if (text.getString().startsWith(DetailedTooltipsUtil.SECTION_SUFFIX)) {
-                            System.out.println("ICEBERG (no-wrap): " + text.getString());
                             Text newString = Text.literal(text.getString().substring(9));
                             OrderedText orderedText = newString.asOrderedText();
                             TooltipComponent component = TooltipComponent.of(orderedText);
